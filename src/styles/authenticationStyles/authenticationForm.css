@@ -1,0 +1,37 @@
+.authentication-form {
+    width: 80%;
+    margin: 42px auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+    align-items: center;
+}
+
+.authentication-form h1 {
+    margin: 6px auto;
+}
+
+.authentication-form button {
+    display: inline-block;
+    margin: 6px auto;
+}
+.authentication-form form {
+    width: 100%;
+    text-align: center;
+}
+
+
+.authentication-form-label-input {
+    display: flex;
+    flex-direction: column;
+
+    width: 40%;
+    margin: 12px auto;
+}
+
+.authentication-form-label-input input {
+    background-color: #ECE2DE;
+    border-radius: 6px;
+    height: 25px;
+    margin: 8px 0;
+}

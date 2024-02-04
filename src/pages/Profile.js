@@ -10,6 +10,11 @@ import FollowersAndFollowing
 
 import Post from "../components/Post";
 
+
+
+import '../styles/profileStyles/profile.css';
+
+
 /**
  * Creates the Profile Page
  * @return {JSX.Element}
@@ -18,7 +23,7 @@ import Post from "../components/Post";
 export default function Profile() {
     const username = 'Dummy_username'
     // fetch the user bio
-    const userBioFetched = 'This is supposed to be fetched';
+    const userBioFetched = 'The caption is supposed to be fetched';
     // fetch all the posts
     const posts = [];
 
@@ -41,28 +46,35 @@ export default function Profile() {
 
 
     const usernameHeader = <h1>{username}</h1>
-    const profilePicture = <img src={'/'} alt={'This is supposed to be the profile pic'}/>
+    const profilePicture = <img src={`http://localhost:3000/static/images/profilePictures/9f68fd70-37eb-4305-8374-774b675caa54-profilePicture-para todo.jpg`} alt={'This is supposed to be the profile pic'}/>
     const bio = <div id={'profile-bio'}>
         <h3>Bio of {username}</h3>
         <p>{userBioFetched}</p>
     </div>
 
     const metaDataProfile = <div id={'meta-data-profile-div'}>
-        {usernameHeader}
-        {profilePicture}
-        {bio}
+        <div id={`profile-picture-and-stories-div`}>
+            {profilePicture}
+        </div>
+        <div id={'username-follow-bio-div'}>
+            {usernameHeader}
+            {followUnFollowRequest}
+            {bio}
+        </div>
     </div>
 
     // set up the data that should be rendered if the client has access to the profile
     const profileData = <div id={'profile-data'}>
-        <a href={'/stories/user'}>View Stories</a>
-        {ownProfile && <a href={`/user/edit/`}>Edit Profile</a> }
+        <div id={'profile-links'}>
+            <a href={'/stories/user'}>View Stories</a>
+            {ownProfile && <a href={`/user/edit/`}>Edit Profile</a> }
+        </div>
         {<FollowersAndFollowing />}
         <h3>Posts of {username}</h3>
     </div>
 
 
-    return (<>
+    return (<div id={'main-profile-container'}>
         {metaDataProfile}
         {(following || ownProfile || publicProfile) && profileData}
         <ul className={'posts-list'}>
@@ -74,6 +86,6 @@ export default function Profile() {
                 </li>
             })}
         </ul>
-    </>);
+    </div>);
 
 }

@@ -7,7 +7,7 @@ export default function Home() {
     const loggedIn = true;
     const welcomeUser = loggedIn ? <h2>Welcome {username}</h2> : <a href={`/login`}>Login</a>
     const profileLink = loggedIn ?
-        <a href={`/user/${username}`}> Profile</a> : <a href={`/signup`}>Signup</a>
+        <a href={`/user`}> Profile</a> : <a href={`/signup`}>Signup</a>
     const createAPost = <a href={`/createPost`}>Create a Post</a>
 
     const searchForm = <form>

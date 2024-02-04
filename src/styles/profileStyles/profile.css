@@ -1,0 +1,56 @@
+#main-profile-container {
+    width: 60%;
+    margin: 42px auto;
+    height: 100%;
+}
+
+#meta-data-profile-div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px 25px;
+}
+
+#profile-picture-and-stories-div {
+    grid-column: 1/2;
+
+
+}
+
+#profile-picture-and-stories-div img {
+    width: 50%;
+    border-radius: 80px;
+    margin: 0 auto;
+
+}
+
+#username-follow-bio-div {
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-data {
+    height: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#profile-links {
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+    margin: 12px 0;
+    justify-content: space-between;
+}
+
+.followers-following {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 6px 0;
+}
+
+.posts-list {
+    display: grid;
+}

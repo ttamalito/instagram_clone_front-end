@@ -11,7 +11,7 @@ export default function Post({postId ,postOwner, postType, caption, likeCount, c
     // define the owner of the post
     const ownerAnchor = <a className={'post-owner-anchor'} href={`/user/${postOwner}`}>{postOwner}</a>
 
-    const postDocument = (postType === 'image') ? <img src={`/static/posts/${postFileName}`}/> :
+    const postDocument = (postType === 'image') ? <img src={`http:localhost:3000/static/posts/${postFileName}`}/> :
         <video src={`/static/posts/${postFileName}`} controls={true} autoPlay={true}>
 
     </video>

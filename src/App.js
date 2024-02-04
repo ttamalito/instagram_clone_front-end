@@ -1,6 +1,7 @@
 import {BrowserRouter} from "react-router-dom";
 
 import BaseRoutes from "./routes/BaseRoutes";
+import ProfileRoutes from './routes/ProfileRoutes'
 
 // import the styles
 import './styles/base.css';
@@ -13,6 +14,7 @@ export default function App() {
           <Header />
           <BrowserRouter>
               <BaseRoutes />
+              <ProfileRoutes />
           </BrowserRouter>
       </>
   );

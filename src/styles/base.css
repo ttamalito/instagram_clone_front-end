@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #201E1D;
+    color: white;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+    background-color: black;
+    display: inline-block;
+    padding: 4px;
+}
+
+
+#header-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid dimgrey;
+    padding: 16px;
+    background-color: dimgrey;
+}
+
+button:hover {
+    background-color: white;
+    padding: 18px;
+}
+
+
+

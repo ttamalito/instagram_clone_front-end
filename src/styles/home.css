@@ -1,0 +1,28 @@
+#home-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+
+#home-wrapper form input {
+    background-color: dimgrey;
+    border-radius: 6px;
+    margin: 2px 2px;
+    border-color: dimgrey;
+}
+
+#home-wrapper form button {
+    border-radius: 8px;
+    border: 1px solid dimgrey;
+    padding: 16px;
+    background-color: dimgrey;
+}
+
+#home-wrapper form button:hover {
+    background-color: white;
+    padding: 18px;
+}

@@ -1,4 +1,6 @@
 
+import '../styles/home.css';
+
 export default function Home() {
 
     const username = 'Dummy username';
@@ -15,12 +17,12 @@ export default function Home() {
     </form>
 
     const searchResult = <div id="search-result"></div>
-    return (<>
+    return (<div id={"home-wrapper"}>
         <h1>Hello if you see this, that means it is working!</h1>
         {welcomeUser}
         {profileLink}
         {createAPost}
         {searchForm}
         {searchResult}
-    </>);
+    </div>);
 }

@@ -1,0 +1,21 @@
+#header-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    margin:12px auto ;
+    height: 15%;
+    font-size: 19px;
+}
+
+#header-nav button {
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 6px;
+    background-color: dimgrey;
+}
+
+#header-nav button:hover {
+    background-color: white;
+    padding: 8px;
+}

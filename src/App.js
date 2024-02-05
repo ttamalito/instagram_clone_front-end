@@ -6,12 +6,15 @@ import ProfileRoutes from './routes/ProfileRoutes'
 import AuthenticationRoutes
     from "./routes/AuthenticationRoutes";
 import PostRoutes from "./routes/PostRoutes";
-
+import ChatRoutes from "./routes/ChatRoutes";
+import StoriesRoutes
+    from "./routes/StoriesRoutes";
 
 
 // import the styles
 import './styles/base.css';
 import Header from "./components/Header";
+
 export default function App() {
   // how to change the title of the webpage
   document.title = 'Hola Putos';
@@ -23,6 +26,8 @@ export default function App() {
               <ProfileRoutes />
               <AuthenticationRoutes />
               <PostRoutes />
+              <ChatRoutes />
+              <StoriesRoutes />
           </BrowserRouter>
       </>
   );

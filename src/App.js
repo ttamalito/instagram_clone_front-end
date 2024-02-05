@@ -5,6 +5,10 @@ import BaseRoutes from "./routes/BaseRoutes";
 import ProfileRoutes from './routes/ProfileRoutes'
 import AuthenticationRoutes
     from "./routes/AuthenticationRoutes";
+import PostRoutes from "./routes/PostRoutes";
+
+
+
 // import the styles
 import './styles/base.css';
 import Header from "./components/Header";
@@ -18,6 +22,7 @@ export default function App() {
               <BaseRoutes />
               <ProfileRoutes />
               <AuthenticationRoutes />
+              <PostRoutes />
           </BrowserRouter>
       </>
   );

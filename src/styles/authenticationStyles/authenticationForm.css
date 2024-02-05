@@ -3,9 +3,12 @@
     margin: 42px auto;
     display: grid;
     grid-template-columns: 1fr;
-    height: 100%;
+    height: 50%;
     align-items: center;
 }
+/*
+
+ */
 
 .authentication-form h1 {
     margin: 6px auto;
@@ -24,14 +27,23 @@
 .authentication-form-label-input {
     display: flex;
     flex-direction: column;
-
+    height: 50px;
     width: 40%;
-    margin: 12px auto;
+    margin: 24px auto;
 }
 
 .authentication-form-label-input input {
-    background-color: #ECE2DE;
-    border-radius: 6px;
-    height: 25px;
-    margin: 8px 0;
+    border: 2px solid rgba(255, 255, 255, .2);
+    outline: none;
+    height: 100%;
+    width: 99%;
+    background: transparent;
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.authentication-form-label-input input::placeholder {
+    color: #fff;
 }

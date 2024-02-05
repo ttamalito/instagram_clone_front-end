@@ -1,6 +1,5 @@
 
 import '../styles/home.css';
-
 export default function Home() {
 
     const username = 'Dummy username';
@@ -10,11 +9,12 @@ export default function Home() {
         <a href={`/user`}> Profile</a> : <a href={`/signup`}>Signup</a>
     const createAPost = <a href={`/createPost`}>Create a Post</a>
 
-    const searchForm = <form>
-        <label>Search For a User</label>
-        <input type="text"/>
-        <button>Search</button>
-    </form>
+    const searchForm = <div className={'search-form'}>
+        <form>
+            <input type="text" placeholder={'Search'}/>
+            <button>Search</button>
+        </form>
+    </div>
 
     const searchResult = <div id="search-result"></div>
     return (<div id={"home-wrapper"}>

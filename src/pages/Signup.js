@@ -14,31 +14,27 @@ export default function Signup() {
     const signupForm = <form>
         <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>"/>
             <div className={'authentication-form-label-input'}>
-                <label htmlFor="email">E-Mail</label>
-                <input type="email" id="email" name="email" />
+                <input type="email" id="email" name="email" placeholder={'E-Mail'}/>
             </div>
             <div className={'authentication-form-label-input'}>
-                <label htmlFor="confirm-email">Confirm E-Mail</label>
-                <input type="email" id="confirm-email" name="confirmEmail" />
+                <input type="email" id="confirm-email" name="confirmEmail" placeholder={'Confirm E-Mail'}/>
             </div>
 
             <div className={'authentication-form-label-input'}>
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" minLength="6" />
+
+                <input type="password" id="password" name="password" minLength="6" placeholder={'Password'} />
             </div>
                 <div className={'authentication-form-label-input'}>
-                    <label htmlFor="fullname">Full Name</label>
-                    <input type="text" id="fullname" name="fullname" />
+                    <input type="text" id="fullname" name="fullname" placeholder={'Full Name'} />
                 </div>
 
                 <div className={'authentication-form-label-input'}>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" name="username" />
+
+                    <input type="text" id="username" name="username" placeholder={'Username'}/>
                 </div>
 
                 <div className={'authentication-form-label-input'}>
-                    <label htmlFor="bio">Biography</label>
-                    <input type="text" id="bio" name="bio" />
+                    <input type="text" id="bio" name="bio" placeholder={'Biography'} />
                 </div>
 
                 <button >Create Account</button>

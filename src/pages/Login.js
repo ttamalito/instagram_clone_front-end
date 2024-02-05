@@ -21,16 +21,15 @@ export default function Login() {
                 {(invalidCredentials) &&  <p>No user with that email, please try again!</p>}
 
                 {(invalidPassword) && <p>Credentials do not match, please try again!</p>}
-                <label >E-Mail</label>
-                <input type="email" id="user-email" name="email" />
+
+                <input type="email" id="user-email" name="email"  placeholder={'E-mail'}/>
             </div>
             <div className={'authentication-form-label-input'}>
-                <label form="username">Username</label>
-                <input type="text" id="username" name="username"/>
+
+                <input type="text" id="username" name="username" placeholder={'Username'}/>
             </div>
             <div className={'authentication-form-label-input'}>
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" minLength="6" />
+                <input type="password" id="password" name="password" minLength="6" placeholder={'Password'} />
             </div>
             <button className="btn">Login</button>
             <p>

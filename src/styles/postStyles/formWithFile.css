@@ -1,0 +1,28 @@
+.form-with-file {
+
+    width: 40%;
+    margin: 0 auto;
+
+    text-align: center;
+    height: 25%;
+}
+
+.form-with-file form {
+    margin-top: 3rem;
+}
+
+.form-with-file div {
+    margin: 12px auto;
+}
+
+.form-with-file input {
+    border: 2px solid rgba(255, 255, 255, .2);
+    outline: none;
+    height: 100%;
+    width: 99%;
+    background: transparent;
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}

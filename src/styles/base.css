@@ -1,3 +1,4 @@
+
 body {
     margin: 0;
     padding: 0;
@@ -5,6 +6,9 @@ body {
     color: white;
 }
 
+#root {
+    height: 100dvh;
+}
 
 a {
     text-decoration: none;
@@ -18,11 +22,7 @@ a:hover {
 }
 
 
-#header-nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
+
 
 button {
     border-radius: 8px;

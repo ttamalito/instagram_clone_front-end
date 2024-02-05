@@ -3,26 +3,39 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-
+    height: 50%;
 }
 
-
-#home-wrapper form input {
-    background-color: dimgrey;
-    border-radius: 6px;
-    margin: 2px 2px;
-    border-color: dimgrey;
-}
 
 #home-wrapper form button {
     border-radius: 8px;
     border: 1px solid dimgrey;
-    padding: 16px;
+    padding: 8px;
     background-color: dimgrey;
 }
 
 #home-wrapper form button:hover {
     background-color: white;
     padding: 18px;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: row;
+    height: 25px;
+    width: 30%;
+    margin: 24px auto;
+    justify-content: flex-start;
+}
+
+.search-form input {
+    border: 2px solid rgba(255, 255, 255, .2);
+    outline: none;
+    height: 15px;
+    width: 45%;
+    background: transparent;
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
 }

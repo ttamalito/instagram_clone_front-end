@@ -1,13 +1,16 @@
 
 import '../styles/header.css'
 
+
+import global from "../globalVars";
+
 export default function Header({loggedIn}) {
 
     const homeDiv = <div id={'home-div'}><a
         href={'/'}>Home</a></div>
 
     // log out button
-    const logOut = <button id={'logout-button-header'}>Logout</button>
+    const logOut = <button id={'logout-button-header'}  onClick={onClickHandlerLogout}>Logout</button>
     // chats anchor
     const chatAnchor = <a href={'/chat/inbox'}>Chats</a>
     //story anchor
@@ -39,3 +42,36 @@ export default function Header({loggedIn}) {
         {loggedIn && allOfThem}
     </nav>)
 }
+
+
+/**
+ * Contains the logic to send a GET request to the backend to logout
+ * @param {Event} event
+ */
+function onClickHandlerLogout(event) {
+    // send the GET request
+    fetch(`${global.backend}/logout`, {
+        method:'GET',
+        credentials: 'include'
+    })
+        .then(response => {
+            // check if the operation was not successful
+            response.json().then(data => {
+                if (data.result) {
+                    // the operation was successful
+                    // redirect to the main page
+                    window.location.href = global.domain;
+                } else {
+                    // it was not successful
+                    // redirect to wherever the backend points
+                    window.location.href = data.url;
+                }
+            })
+        }).catch(err => {
+            // the fetch request failed
+            console.error(err);
+            // redirect to error page
+            window.location.href = `${global.domain}/error`;
+    })
+
+} // here ends onClickHandlerLogout

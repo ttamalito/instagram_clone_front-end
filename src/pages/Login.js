@@ -9,6 +9,8 @@ import global from "../globalVars";
 // import utils
 import createUrlParams
     from "../utils/createUrlParams";
+import catchFetchError
+    from "../utils/catchFetchError";
 
 /**
  * Creates the Login Page
@@ -16,13 +18,7 @@ import createUrlParams
  * @constructor
  */
 export default function Login() {
-    const csrf = useRef();
-    const [csrfToken, setCsrfToken] = useState();
-    // fetch the csrf token from the server
-    useEffect(()=>{
 
-
-    }, [])
     // fetch if the user put an invalid credential
     const invalidCredentials = false;
     // fetch if the user put an invalid password
@@ -61,6 +57,8 @@ export default function Login() {
     </div>)
 }
 
+
+
 /**
  * Sends the POST request to the backend, to log a user in
  * @param {Event} event
@@ -89,22 +87,28 @@ function postRequestToLogin(event) {
                         credentials:'include'
                     }).then(res => {
                         console.log(res);
-                        res.json().then(data=>console.log(data));
-                        // check if redirected is needed
-                        if (res.redirected)
-                            console.log(`We got redirected, so no login`)
-                    });
+                        res.json().then(postData => {
+                            // the data of the post request
+                            if (postData.result) {
+                                // the user was logged in
+                                window.location.href = global.domain;
+                            } else {
+                                // the user could not be loggedIn
+                                window.location.href = data.url;
+                            }
+                        });
+
+
+                    }).catch(catchFetchError);
                 } // if data.result, then send the post request
                 else {
                     // the result was false
-                    console.log(`There is no token for you`)
+                    // that means the user is already logged in or wrong data
+                    window.location.href = data.url;
                 }
 
-                }
-
-            ) // res.json().then() for GET request
-    }) // initial fetch
-
+            }) // res.json().then() for GET request
+    }).catch(catchFetchError) // this is the initial fetch
 
 
 } // here ends postRequestToLogin

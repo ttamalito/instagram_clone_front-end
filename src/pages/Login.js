@@ -78,6 +78,7 @@ function postRequestToLogin(event) {
     }).then(res => {
             res.json().then(data => {
                 // check if there is a token
+                console.log(`This is the data that we recieved ${data}`)
                 if (data.result) {
                     // there is a token
                     console.log(`there is a token ${data.csrf}`)
@@ -91,12 +92,12 @@ function postRequestToLogin(event) {
                         res.json().then(data=>console.log(data));
                         // check if redirected is needed
                         if (res.redirected)
-                            window.location.href = res.url;
+                            console.log(`We got redirected, so no login`)
                     });
                 } // if data.result, then send the post request
                 else {
                     // the result was false
-                    window.location.href = global.domain;
+                    console.log(`There is no token for you`)
                 }
 
                 }

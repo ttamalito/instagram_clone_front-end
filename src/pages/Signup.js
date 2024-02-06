@@ -54,7 +54,7 @@ export default function Signup() {
 
 /**
  * Contains the logic to submit the form data as a post request to the backend
- * @param event
+ * @param {Event} event
  */
 function onSubmitHandler(event) {
     // prevent the default behaviour

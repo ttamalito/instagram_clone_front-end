@@ -2,41 +2,14 @@
 import '../styles/home.css';
 import {useEffect, useRef, useState} from "react";
 
+import global from "../globalVars";
+
 /**
  * Creates the Home Page, if fetches the necessary data from the backend server
  * @return {JSX.Element}
  * @constructor
  */
-export default function Home() {
-    const [username, setUsername] = useState();
-    const [loggedIn, setLoggedIn] = useState();
-    //const username = useRef();
-    //const loggedIn = useRef();
-    useEffect(() => {
-        //console.log('i fire')
-        fetch(`http://localhost:3000/`, {
-            method: 'GET',
-            redirect: 'follow',
-            credentials: 'include'
-        }).then(res => {
-            for (const h of res.headers) {
-                console.log(h);
-            }
-            res.json().then(data => {
-                // here we have the data
-                console.log(data);
-                setUsername(data.username);
-                //username.current = data.username;
-                //console.log(`Current: ${username.current}`)
-                //console.log(`WHole: ${username}`)
-                setLoggedIn(data.loggedIn)
-                //loggedIn.current = data.loggedIn;
-                //console.log(`Current: ${loggedIn.current}`)
-                //console.log(`WHole: ${loggedIn}`)
-            })
-        }).catch(err => console.error(err))
-    }, []);
-
+export default function Home({loggedIn, username}) {
 
     const welcomeUser = loggedIn ? <h2>Welcome {username}</h2> : <a href={`/login`}>Login</a>
     const profileLink = loggedIn ?

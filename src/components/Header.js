@@ -1,9 +1,7 @@
 
 import '../styles/header.css'
 
-export default function Header() {
-    // TODO - change this!!!
-    const loggedIn = true;
+export default function Header({loggedIn}) {
 
     const homeDiv = <div id={'home-div'}><a
         href={'/'}>Home</a></div>

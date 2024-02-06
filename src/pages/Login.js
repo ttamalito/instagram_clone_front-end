@@ -4,6 +4,12 @@
 import '../styles/authenticationStyles/authenticationForm.css'
 import {useEffect, useRef, useState} from "react";
 
+import global from "../globalVars";
+
+// import utils
+import createUrlParams
+    from "../utils/createUrlParams";
+
 /**
  * Creates the Login Page
  * @return {JSX.Element}
@@ -64,18 +70,8 @@ function postRequestToLogin(event) {
     // send the request
     // prevent the default behaviour of the event
     event.preventDefault();
-    // get the form data
-    console.log(`We prevented the default behaviour`);
-    console.log(event.nativeEvent.srcElement);
-    const formData = new FormData(event.nativeEvent.srcElement);
-    const urlData = new URLSearchParams();
-    console.log(formData);
-    for (const pair of formData) {
-        console.log(pair[0], pair[1]);
-        urlData.append(pair[0], pair[1]);
-    }
-
-    fetch(`http://localhost:3000/login`, {
+    const urlData = createUrlParams(event.nativeEvent.srcElement);
+    fetch(`${global.backend}/login`, {
         method: "GET",
         redirect: 'follow',
         credentials: 'include'
@@ -85,7 +81,7 @@ function postRequestToLogin(event) {
                 if (data.result) {
                     // there is a token
                     console.log(`there is a token ${data.csrf}`)
-                    fetch(`http://localhost:3000/login?_csrf=${data.csrf}`, {
+                    fetch(`${global.backend}/login?_csrf=${data.csrf}`, {
                         method: "POST",
                         redirect: 'follow',
                         body: urlData,
@@ -100,7 +96,7 @@ function postRequestToLogin(event) {
                 } // if data.result, then send the post request
                 else {
                     // the result was false
-                    window.location.href = `http://localhost:8080`;
+                    window.location.href = global.domain;
                 }
 
                 }

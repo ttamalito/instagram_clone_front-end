@@ -16,7 +16,8 @@ export default function Home() {
         //console.log('i fire')
         fetch(`http://localhost:3000/`, {
             method: 'GET',
-            redirect: 'follow'
+            redirect: 'follow',
+            credentials: 'include'
         }).then(res => {
             for (const h of res.headers) {
                 console.log(h);

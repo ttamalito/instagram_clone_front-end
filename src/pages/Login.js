@@ -2,6 +2,7 @@
 
 
 import '../styles/authenticationStyles/authenticationForm.css'
+import {useEffect, useRef, useState} from "react";
 
 /**
  * Creates the Login Page
@@ -9,13 +10,21 @@ import '../styles/authenticationStyles/authenticationForm.css'
  * @constructor
  */
 export default function Login() {
+    const csrf = useRef();
+    const [csrfToken, setCsrfToken] = useState();
+    // fetch the csrf token from the server
+    useEffect(()=>{
+
+
+    }, [])
     // fetch if the user put an invalid credential
     const invalidCredentials = false;
     // fetch if the user put an invalid password
     const invalidPassword = false;
     const loginHeader = <h1>Login</h1>
     // login form
-    const loginForm = <form>
+    const loginForm = <form onSubmit={postRequestToLogin}>
+
             <div className={'authentication-form-label-input'}>
 
                 {(invalidCredentials) &&  <p>No user with that email, please try again!</p>}
@@ -46,7 +55,59 @@ export default function Login() {
     </div>)
 }
 
+/**
+ * Sends the POST request to the backend, to log a user in
+ * @param {Event} event
+ * @return {Promise<void>}
+ */
+function postRequestToLogin(event) {
+    // send the request
+    // prevent the default behaviour of the event
+    event.preventDefault();
+    // get the form data
+    console.log(`We prevented the default behaviour`);
+    console.log(event.nativeEvent.srcElement);
+    const formData = new FormData(event.nativeEvent.srcElement);
+    const urlData = new URLSearchParams();
+    console.log(formData);
+    for (const pair of formData) {
+        console.log(pair[0], pair[1]);
+        urlData.append(pair[0], pair[1]);
+    }
 
-async function postRequestToLogin() {
+    fetch(`http://localhost:3000/login`, {
+        method: "GET",
+        redirect: 'follow',
+        credentials: 'include'
+    }).then(res => {
+            res.json().then(data => {
+                // check if there is a token
+                if (data.result) {
+                    // there is a token
+                    console.log(`there is a token ${data.csrf}`)
+                    fetch(`http://localhost:3000/login?_csrf=${data.csrf}`, {
+                        method: "POST",
+                        redirect: 'follow',
+                        body: urlData,
+                        credentials:'include'
+                    }).then(res => {
+                        console.log(res);
+                        res.json().then(data=>console.log(data));
+                        // check if redirected is needed
+                        if (res.redirected)
+                            window.location.href = res.url;
+                    });
+                } // if data.result, then send the post request
+                else {
+                    // the result was false
+                    window.location.href = `http://localhost:8080`;
+                }
 
-}
+                }
+
+            ) // res.json().then() for GET request
+    }) // initial fetch
+
+
+
+} // here ends postRequestToLogin

@@ -56,7 +56,7 @@ export default function Profile() {
      */
     const followUnFollowRequest = (!following && !ownProfile) ?
         ((requestedToFollow)? <RequestedToFollow /> : <RequestToFollow />)
-        : ((following && !ownProfile) && <UnFollowUser />);
+        : ((following && !ownProfile) && <UnFollowUser username={username} setFollowing={setFollowing} />);
 
 
 

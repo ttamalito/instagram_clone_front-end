@@ -55,7 +55,7 @@ export default function Profile() {
     render the button to unfollow the user
      */
     const followUnFollowRequest = (!following && !ownProfile) ?
-        ((requestedToFollow)? <RequestedToFollow /> : <RequestToFollow />)
+        ((requestedToFollow)? <RequestedToFollow /> : <RequestToFollow setFollowing={setFollowing} setRequestedToFollow={setRequestedToFollow} username={username}/>)
         : ((following && !ownProfile) && <UnFollowUser username={username} setFollowing={setFollowing} />);
 
 

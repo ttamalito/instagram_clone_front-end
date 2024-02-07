@@ -63,7 +63,7 @@ export default function Home({loggedIn, username}) {
 
     const searchForm = <div className={'search-form'}>
         <form onSubmit={onSubmitSearchHandler}>
-            <input type="text" name={'username'} placeholder={'Search'}/>
+            <input type="text" name={'username'} placeholder={'Search'}  autoComplete={'off'}/>
             <button>Search</button>
         </form>
     </div>

@@ -16,6 +16,8 @@ import './styles/base.css';
 import Header from "./components/Header";
 import {useEffect, useRef, useState} from "react";
 import global from "./globalVars";
+import catchFetchError
+    from "./utils/catchFetchError";
 
 export default function App() {
   // how to change the title of the webpage
@@ -42,7 +44,7 @@ export default function App() {
                 setLoggedIn(data.loggedIn);
                 refLoggedIn.current = data.loggedIn;
             })
-        }).catch(err => console.error(err))
+        }).catch(catchFetchError)
     }, []);
   return (
       <>

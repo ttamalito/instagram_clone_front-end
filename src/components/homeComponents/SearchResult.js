@@ -11,7 +11,7 @@ export default function SearchResult({items}) {
         {items.map(item => {
             // render each item
             return <li key={item}>
-                <a href={`/user/${item}`}>item</a>
+                <a href={`/user/${item}`}>{item}</a>
             </li>
         })}
     </ul>);

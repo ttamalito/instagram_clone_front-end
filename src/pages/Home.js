@@ -21,17 +21,19 @@ export default function Home({loggedIn, username}) {
     function onSubmitSearchHandler(event) {
         // prevent default behaviour
         event.preventDefault();
-        // get the data from the form
-        const dataToSend = new URLSearchParams();
+        console.log(event.nativeEvent.srcElement)
         const formData = new FormData(event.nativeEvent.srcElement);
+        console.log(formData.keys())
         let urlString = '?';
 
         // populate the dataToSend
         for (const pair of formData) {
+            console.log(pair);
             urlString += pair[0];
             urlString += '=';
             urlString += pair[1];
         }
+        console.log(`About to send: ${urlString}`)
         // send the request
         fetch(`${global.backend}/search/searchUser${urlString}`,
             {
@@ -44,6 +46,7 @@ export default function Home({loggedIn, username}) {
                     response.json().then(data => {
                         // see if the list is not empty
                         if (data.users.length !== 0) {
+                            console.log(data.users);
                             // set the items
                             setItems(data.users);
                         }
@@ -60,7 +63,7 @@ export default function Home({loggedIn, username}) {
 
     const searchForm = <div className={'search-form'}>
         <form onSubmit={onSubmitSearchHandler}>
-            <input type="text" placeholder={'Search'}/>
+            <input type="text" name={'username'} placeholder={'Search'}/>
             <button>Search</button>
         </form>
     </div>

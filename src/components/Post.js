@@ -19,16 +19,25 @@ export default function Post({postId ,postOwner, postType, caption, likeCount, c
 
     </video>
 
+    const likesAndCommentsHover = <section className='likes-comments-hover'>
+        <h1>{likeCount} Likes</h1>
+        <h1>{commentCount} Comments</h1>
+    </section>
+
     // caption
     const postCaption = <p className={'post-caption'}>{caption}</p>
 
+
+    const profileGrid = classStyle === 'profile-grid';
+
     // return the post
     return (<div className={classStyle}>
-        {ownerAnchor}
+        {!profileGrid && ownerAnchor}
         {postDocument}
-        {postCaption}
-        <LikeComponentPost likeCount={likeCount} postId={postId} likedByUser={likeValue} />
-        <CommentComponentPost commentCount={commentCount} postId={postId} />
+        {profileGrid && likesAndCommentsHover}
+        { !profileGrid && postCaption}
+        {!profileGrid && <LikeComponentPost likeCount={likeCount} postId={postId} likedByUser={likeValue} />}
+        {!profileGrid && <CommentComponentPost commentCount={commentCount} postId={postId} />}
     </div>)
 
 }

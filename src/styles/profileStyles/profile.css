@@ -55,5 +55,16 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
+    list-style: none;
 
+}
+
+.posts-list li {
+
+    border: 2px solid black;
+    height: 450px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    margin: 0;
 }

@@ -1,16 +1,24 @@
 .profile-grid img,video {
-    width: 242px;
-    height: 242px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    transform: translate(-50%, -50%);
+
 }
 
-.profile-grid .close-likes {
-    visibility: hidden;
+.profile-grid img:hover, video:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0.4;
 }
 
-.profile-grid .close-comments {
-    visibility: hidden;
+.profile-grid section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    margin: 150px auto;
 }
 
-.profile-grid .leave-comment-post {
-    visibility: hidden;
-}

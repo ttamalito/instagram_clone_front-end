@@ -13,8 +13,7 @@ export default function LikeComponentPost({likeCount, postId, likedByUser}) {
             {likeCount}
         </span>
         <button className="likedBy" value={postId} id={`see-like-${postId}`}>Likes</button>
-        <button className="close-likes" id="close-like-<%= post._id %>" value="<%= post._id %>"
-                >Close Likes</button>
+        <button className="close-likes" id="close-like-<%= post._id %>">Close Likes</button>
         <div id="likes-<%= post._id %>" >
             <ul id="likes-list-<%= post._id %>">
 

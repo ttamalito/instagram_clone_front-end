@@ -11,8 +11,8 @@ export default function CommentComponentPost({commentCount, postId}) {
         <span id="comment-count-<%= post._id %>">
             {commentCount}
         </span>
-        <button className="see-comments" value="<%= post._id %>" id={`see-comment-${postId}`}>Comments</button>
-        <button className="close-comments" value="<%= post._id %>" id="close-comment-<%= post._id %>"
+        <button className="see-comments"  id={`see-comment-${postId}`}>Comments</button>
+        <button className="close-comments"  id="close-comment-<%= post._id %>"
                  >Close comments</button>
         <div id="comments-<%= post._id %>" >
             <ul id="list-<%= post._id %>">
@@ -20,7 +20,7 @@ export default function CommentComponentPost({commentCount, postId}) {
         </div>
         <button className="leave-comment" value="<%= post._id %>">Leave a Comment</button>
 
-        <div id="create-comment-<%= post._id %>" >
+        <div className={'leave-comment-post'} >
             <h1>
                 Leave a comment:
             </h1>

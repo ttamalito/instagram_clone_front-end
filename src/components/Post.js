@@ -5,14 +5,17 @@ import LikeComponentPost
 import CommentComponentPost
     from "./postComponents/CommentComponentPost";
 
+import global from "../globalVars";
 
-export default function Post({postId ,postOwner, postType, caption, likeCount, commentCount, postFileName, likeValue}) {
 
+// styles
+import '../styles/postStyles/post.css';
+
+export default function Post({postId ,postOwner, postType, caption, likeCount, commentCount, postFileName, likeValue, classStyle}) {
     // define the owner of the post
     const ownerAnchor = <a className={'post-owner-anchor'} href={`/user/${postOwner}`}>{postOwner}</a>
-
-    const postDocument = (postType === 'image') ? <img src={`http:localhost:3000/static/posts/${postFileName}`}/> :
-        <video src={`/static/posts/${postFileName}`} controls={true} autoPlay={true}>
+    const postDocument = (postType === 'image') ? <img src={`${global.backend}/static/posts/${postFileName}`} /> :
+        <video src={`${global.backend}/static/posts/${postFileName}`} controls={true} autoPlay={true} >
 
     </video>
 
@@ -20,7 +23,7 @@ export default function Post({postId ,postOwner, postType, caption, likeCount, c
     const postCaption = <p className={'post-caption'}>{caption}</p>
 
     // return the post
-    return (<div className={'post'}>
+    return (<div className={classStyle}>
         {ownerAnchor}
         {postDocument}
         {postCaption}

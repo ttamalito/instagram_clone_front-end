@@ -11,8 +11,14 @@ import FollowersAndFollowing
 import Post from "../components/Post";
 
 
-
+// styles
 import '../styles/profileStyles/profile.css';
+import {useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import catchFetchError
+    from "../utils/catchFetchError";
+
+import global from "../globalVars";
 
 
 /**
@@ -21,16 +27,25 @@ import '../styles/profileStyles/profile.css';
  * @constructor
  */
 export default function Profile() {
-    const username = 'Dummy_username'
-    // fetch the user bio
-    const userBioFetched = 'The caption is supposed to be fetched';
+    const params = useParams();
+    const username = params.username;
+    // user bio
+    const [userBioFetched, setUserBioFetched] = useState('');
     // fetch all the posts
-    const posts = [];
+    const [posts, setPosts] = useState([]);
 
-    const following = true;
-    const ownProfile = true;
-    const requestedToFollow = false;
-    const publicProfile = false;
+    const [following, setFollowing] = useState(true);
+    const [ownProfile, setOwnProfile] = useState(true);
+    const [requestedToFollow, setRequestedToFollow] = useState(false);
+    const [publicProfile, setPublicProfile] = useState(false);
+    const [imagePath, setImagePath] = useState('');
+
+    // declare the useEffect to fetch the user data
+    useEffect(() => {
+        // fetch the data and populate everything
+        fetchProfile(username, setUserBioFetched, setPosts, setFollowing, setOwnProfile, setRequestedToFollow, setPublicProfile, setImagePath);
+    }, []);
+
 
     // logic to display follow/unfollow or Request Sent/Remove Request
     /*
@@ -46,7 +61,7 @@ export default function Profile() {
 
 
     const usernameHeader = <h1>{username}</h1>
-    const profilePicture = <img src={`http://localhost:3000/static/images/profilePictures/9f68fd70-37eb-4305-8374-774b675caa54-profilePicture-para todo.jpg`} alt={'This is supposed to be the profile pic'}/>
+    const profilePicture = <img src={`${global.backend}${imagePath}`} alt={'This is supposed to be the profile pic'}/>
     const bio = <div id={'profile-bio'}>
         <h3>Bio of {username}</h3>
         <p>{userBioFetched}</p>
@@ -82,10 +97,49 @@ export default function Profile() {
                 return <li key={post._id} className={'post-list-item'}>
                     <Post postId={post._id} commentCount={post.commentCount} likeCount={post.likeCount}
                           caption={post.caption} likeValue={post.likeValue} postFileName={post.fileName}
-                          postOwner={post.username} postType={post.postType} />
+                          postOwner={username} postType={post.postType} classStyle={'profile-grid'}/>
                 </li>
             })}
         </ul>
     </div>);
 
-}
+} // end of component Profile
+
+
+/**
+ * Fetches the necessary data to render the page accordingly and sets all the values that were declared using useState
+ * @param {String} username
+ * @param {Function} setUserBioFetched
+ * @param {Function} setPosts
+ * @param {Function} setFollowing
+ * @param {Function} setOwnProfile
+ * @param {Function} setRequestedToFollow
+ * @param {Function} setPublicProfile
+ * @param {Function} setImagePath
+ */
+function fetchProfile(username, setUserBioFetched, setPosts, setFollowing, setOwnProfile, setRequestedToFollow, setPublicProfile, setImagePath) {
+    // crete the get request
+    fetch(`${global.backend}/user/${username}`, {
+        method: 'GET',
+        credentials: 'include'
+    }).then(getResponse => {
+        // get the data
+        getResponse.json().then(getData => {
+            // here we have the data of the profile
+            // set the bio
+            setUserBioFetched(getData.userBio);
+            // set the posts
+            setPosts(getData.posts);
+            // check if the user requesting is following the profile
+            setFollowing(getData.following);
+            // check if the user is wanting to visit his own profile
+            setOwnProfile(getData.ownProfile);
+            // check if the user has requested to follow the owner of the profile
+            setRequestedToFollow(getData.requestedToFollow);
+            // check if the profile that is being rendered is public
+            setPublicProfile(getData.publicProfile);
+            // set the path to the profile picture
+            setImagePath(getData.imagePath);
+        })
+    }).catch(catchFetchError);
+} // end of fetchProfile

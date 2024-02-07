@@ -1,0 +1,16 @@
+.profile-grid img,video {
+    width: 242px;
+    height: 242px;
+}
+
+.profile-grid .close-likes {
+    visibility: hidden;
+}
+
+.profile-grid .close-comments {
+    visibility: hidden;
+}
+
+.profile-grid .leave-comment-post {
+    visibility: hidden;
+}

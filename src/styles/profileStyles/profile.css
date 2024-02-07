@@ -1,5 +1,5 @@
 #main-profile-container {
-    width: 60%;
+    width: 80%;
     margin: 42px auto;
     height: 100%;
 }
@@ -53,4 +53,7 @@
 
 .posts-list {
     display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+
 }

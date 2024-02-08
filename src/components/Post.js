@@ -11,6 +11,20 @@ import global from "../globalVars";
 // styles
 import '../styles/postStyles/post.css';
 
+/**
+ *
+ * @param postId
+ * @param postOwner
+ * @param postType
+ * @param caption
+ * @param likeCount
+ * @param commentCount
+ * @param postFileName
+ * @param likeValue
+ * @param {String} classStyle defines how the post should be displayed, i.e. in a grid, as a single post or in the home page
+ * @return {JSX.Element}
+ * @constructor
+ */
 export default function Post({postId ,postOwner, postType, caption, likeCount, commentCount, postFileName, likeValue, classStyle}) {
     // define the owner of the post
     const ownerAnchor = <a className={'post-owner-anchor'} href={`/user/${postOwner}`}>{postOwner}</a>

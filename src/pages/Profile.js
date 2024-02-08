@@ -19,6 +19,8 @@ import catchFetchError
     from "../utils/catchFetchError";
 
 import global from "../globalVars";
+import checkIfUserHasStories
+    from "../utils/checkIfUserHasStories";
 
 
 /**
@@ -39,11 +41,20 @@ export default function Profile({displayFollowersList,displayFollowingList }) {
     const [requestedToFollow, setRequestedToFollow] = useState(false);
     const [publicProfile, setPublicProfile] = useState(false);
     const [imagePath, setImagePath] = useState('');
+    const [story, setStory] = useState({});
 
     // declare the useEffect to fetch the user data
     useEffect(() => {
         // fetch the data and populate everything
         fetchProfile(username, setUserBioFetched, setPosts, setFollowing, setOwnProfile, setRequestedToFollow, setPublicProfile, setImagePath);
+        // check if the user has stories
+        checkIfUserHasStories(username).then(obj => {
+            if (obj.result) {
+                console.log(obj);
+                // there is a story
+                setStory(obj);
+            }
+        }).catch(catchFetchError);
     }, []);
 
 
@@ -81,7 +92,7 @@ export default function Profile({displayFollowersList,displayFollowingList }) {
     // set up the data that should be rendered if the client has access to the profile
     const profileData = <div id={'profile-data'}>
         <div id={'profile-links'}>
-            <a href={'/stories/user'}>View Stories</a>
+            {story.result && <a href={`/stories/${username}/${story.story.filename}/0`}>View Stories</a>}
             {ownProfile && <a href={`/user/edit/`}>Edit Profile</a> }
         </div>
         {<FollowersAndFollowing username={username} displayFollowersList={displayFollowersList} displayFollowingList={displayFollowingList} />}

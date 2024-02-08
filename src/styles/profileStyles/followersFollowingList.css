@@ -1,0 +1,51 @@
+.followers-following-div {
+    z-index: 54;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 1);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 38px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+}
+
+
+
+.follower-following-header {
+    display: grid;
+    grid-template-columns: 75fr 25fr;
+}
+
+.follower-following-header .follow-title {
+
+    text-align: center;
+}
+
+.followers-following-div .close-followers-following-anchor {
+    text-align: right;
+}
+
+.followers-following-div .close-followers-following-anchor:hover {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.followers-following-div .followers-following-list {
+    list-style: none;
+
+}
+
+.followers-following-div .followers-following-list li {
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}

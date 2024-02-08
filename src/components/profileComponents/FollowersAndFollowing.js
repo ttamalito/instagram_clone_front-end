@@ -1,9 +1,13 @@
 
+// import some components
+import FollowersList from "./FollowersList";
 
 import global from "../../globalVars";
 import catchFetchError
     from "../../utils/catchFetchError";
 import {useState} from "react";
+
+import '../../styles/profileStyles/followersFollowingList.css'
 
 
 /**
@@ -25,27 +29,21 @@ export default function FollowersAndFollowing({username, displayFollowersList, d
     }
     // display followers
     const displayFollowersButton = <a id="display-followers-button" href={`/user/${username}/followers`}>Followers</a>;
-    const followers = <div id="followers-div" >
-         <a id="close-followers-anchor" href={`/user/${username}`}>Close Followers</a>
-        <ul id="followers-list">
-            {
-                followersList.map(follower => {
-                    return <li key={follower} >{follower}</li>
-                })
-            }
-        </ul>
-    </div>;
+
 
     const followersWrapper = <div className={'followers-following'}>
         {displayFollowersButton}
-        {displayFollowersList && followers}
+        {displayFollowersList && <FollowersList username={username} followersList={followersList} /> }
     </div>
 
     // following
     const displayFollowingButton = <a id="display-following-button" href={`/user/${username}/following`}>Following</a>
-    const following =  <div id="following-div" >
-        <a id="close-following-anchor" href={`/user/${username}`}>Close Following</a>;
-        <ul id="following-list">
+    const following =  <div className={"followers-following-div"} >
+        <div className={'follower-following-header'}>
+            <h4 className={'follow-title'}>Following</h4>
+            <a className={"close-followers-following-anchor"} href={`/user/${username}`}>Close Following</a>
+        </div>
+            <ul className={"followers-following-list"}>
             {
                 followingList.map(follow => {
                     return <li key={follow} >{follow}</li>

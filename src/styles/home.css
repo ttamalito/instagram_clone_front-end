@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 50%;
+    height: 70%;
 }
 
 
@@ -38,4 +38,31 @@
     font-size: 16px;
     color: #fff;
     padding: 20px 45px 20px 20px;
+}
+
+#search-result {
+    width: 40%;
+    list-style: none;
+    font-size: 24px;
+    height: 30%;
+
+}
+
+#search-result li a{
+    color: white;
+}
+
+#search-result li {
+    text-align: center;
+    width: 100%;
+    border: 2px dashed white;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#search-result li a:hover{
+    color: white;
+    background-color: salmon;
 }

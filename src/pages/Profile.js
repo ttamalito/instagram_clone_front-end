@@ -26,7 +26,7 @@ import global from "../globalVars";
  * @return {JSX.Element}
  * @constructor
  */
-export default function Profile() {
+export default function Profile({displayFollowersList,displayFollowingList }) {
     const params = useParams();
     const username = params.username;
     // user bio
@@ -84,7 +84,7 @@ export default function Profile() {
             <a href={'/stories/user'}>View Stories</a>
             {ownProfile && <a href={`/user/edit/`}>Edit Profile</a> }
         </div>
-        {<FollowersAndFollowing />}
+        {<FollowersAndFollowing username={username} displayFollowersList={displayFollowersList} displayFollowingList={displayFollowingList} />}
         <h3>Posts of {username}</h3>
     </div>
 

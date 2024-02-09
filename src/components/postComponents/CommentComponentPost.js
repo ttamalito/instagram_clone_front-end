@@ -1,3 +1,13 @@
+
+
+import global from "../../globalVars";
+import fetchCSRF from "../../utils/fetchCSRF";
+import catchFetchError
+    from "../../utils/catchFetchError";
+import createUrlParams
+    from "../../utils/createUrlParams";
+import {useState} from "react";
+
 /**
  *
  * @param {number} commentCount
@@ -6,10 +16,51 @@
  * @constructor
  */
 export default function CommentComponentPost({commentCount, postId}) {
+
+    const [count, setCount] = useState(commentCount);
+
+    // function to submit a comment
+    const onSubmitPostComment = (event) => {
+        // prevent the default
+        event.preventDefault();
+
+        // define the url
+        const url = `${global.backend}/post/comment/${postId}`;
+
+        // prepare the data to send
+        const urlParams = createUrlParams(event.nativeEvent.srcElement);
+
+        // fetch the csrfToken
+        fetchCSRF(url).then(async csrf => {
+            // with the csrf token, send the post request
+            console.log(`The csrf Token: ${csrf}`)
+            if (csrf !== '') {
+                const commentResponse = await fetch( `${url}?_csrf=${csrf}`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: urlParams
+                })
+                console.log(commentResponse)
+                // now check the result
+                const commentData = await commentResponse.json();
+                if (commentData.result) {
+                    // update the comment count
+                    setCount(commentData.commentCount);
+                    //TODO - here we need to close the form and erase the data
+                } else {
+                    // could not post the commnet
+                    window.location.href = commentData.url;
+                }
+            } else {
+                console.log(`there is no csrf token`)
+            }
+        }).catch(catchFetchError)
+    }
+
     const comment =
         <div>
         <span id="comment-count-<%= post._id %>">
-            {commentCount}
+            {count}
         </span>
         <button className="see-comments"  id={`see-comment-${postId}`}>Comments</button>
         <button className="close-comments"  id="close-comment-<%= post._id %>"
@@ -24,8 +75,7 @@ export default function CommentComponentPost({commentCount, postId}) {
             <h1>
                 Leave a comment:
             </h1>
-            <form id="form-<%= post._id %>" >
-                <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
+            <form onSubmit={onSubmitPostComment} >
                     <div>
                         <label htmlFor="comment-<%= post._id %>">Comment</label>
                         <input type="text" id="comment-<%= post._id %>" name="comment" required={true} />
@@ -41,4 +91,12 @@ export default function CommentComponentPost({commentCount, postId}) {
     </div>
 
     return comment;
+}
+
+
+function onClickPostComment(event) {
+
+
+    // get the csrfToken
+
 }

@@ -106,9 +106,11 @@ export default function Profile({displayFollowersList,displayFollowingList }) {
         <ul className={'posts-list'}>
             {posts.map((post)=> {
                 return <li key={post._id} className={'post-list-item'}>
-                    <Post postId={post._id} commentCount={post.commentCount} likeCount={post.likeCount}
-                          caption={post.caption} likeValue={post.likeValue} postFileName={post.fileName}
-                          postOwner={username} postType={post.postType} classStyle={'profile-grid'}/>
+                    <a href={`/post/${post._id}`}>
+                        <Post postId={post._id} commentCount={post.commentCount} likeCount={post.likeCount}
+                              caption={post.caption} likeValue={post.likeValue} postFileName={post.fileName}
+                              postOwner={username} postType={post.postType} classStyle={'profile-grid'}/>
+                    </a>
                 </li>
             })}
         </ul>

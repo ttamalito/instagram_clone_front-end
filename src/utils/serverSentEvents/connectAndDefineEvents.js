@@ -37,7 +37,7 @@ export default function connectAndDefineEvents(setNotifications) {
         const data = e.data;
         console.log(data)
         // modify the notifications button
-        //modifyNotificationsButton();
+        setNotifications(extractAndIncrementAmountOfNotificationsOneParameter)
     });
 
     sse.addEventListener('new_follower', e => {
@@ -60,7 +60,7 @@ export default function connectAndDefineEvents(setNotifications) {
         console.log(`We received a message`);
         const data = JSON.parse(e.data);
         console.log(data);
-        //modifyNotificationsButton();
+        setNotifications(extractAndIncrementAmountOfNotificationsOneParameter)
     })
 }
 
@@ -77,20 +77,3 @@ function extractAndIncrementAmountOfNotificationsOneParameter(amount) {
     const n = parseInt(separatedArray[1]) + 1;
     return `Show ${n.toString()} Notifications`
 }
-
-/**
- * Modifies the Content of the #show-notifications-button to show the newly added notifications
- */
-function modifyNotificationsButton(setNotifications, notificationsRef) {
-    const currentNotifications = notificationsRef.current;
-    if (currentNotifications === '') {
-        // its the empty string
-        notificationsRef.current = 'Show 1 Notification';
-         setNotifications({render: true, text: 'Show 1 Notification'})
-    } else {
-        // there are some notifications
-        const newValue = extractAndIncrementAmountOfNotificationsOneParameter(currentNotifications);
-        notificationsRef.current = newValue
-        setNotifications({render: true, text: newValue})
-    }
-} // here ends the function

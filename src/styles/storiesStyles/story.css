@@ -1,0 +1,24 @@
+
+.story-wrapper {
+    width: 50%;
+    margin: 0 auto;
+    height: 500px;
+    background-color: salmon;
+}
+
+.story-wrapper .media{
+
+    height: 100%;
+    border-radius: 8px;
+    border: 4px solid black;
+    object-fit: cover;
+
+}
+.next-story-anchor {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+    margin: 24px auto;
+    display: inline-block;
+    width: 100%;
+}

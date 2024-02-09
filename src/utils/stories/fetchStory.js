@@ -2,7 +2,7 @@
 
 import global from "../../globalVars";
 
-export default async function fetchStory(username, filename, sequence, imageRef, videoRef, setRender) {
+export default async function fetchStory(username, filename, sequence, imageRef, videoRef, setRender, nextRef) {
     // send the get request
     const response = await fetch(`${global.backend}/stories/${username}/${filename}/${sequence}`, {
         method: 'GET',
@@ -11,9 +11,12 @@ export default async function fetchStory(username, filename, sequence, imageRef,
     //log the response
     console.log(response);
     // log the headers
+    for (const h of response.headers) {
+        console.log(h);
+    }
     const contentType = response.headers.get('content-type');
     const nextLink = response.headers.get('next-story-link');
-    console.log(nextLink);
+    console.log(`THis is the link: ${nextLink}`);
     // check if we are dealing with an image or video
     if (contentType[0] === 'i') {
         // it is an image
@@ -31,6 +34,9 @@ export default async function fetchStory(username, filename, sequence, imageRef,
         imageRef.current.hidden = false;
 
         // check if there are more stories
+        if (nextLink) {
+            nextRef.current = nextLink;
+        }
 
         // re render
         setRender(true);
@@ -40,6 +46,10 @@ export default async function fetchStory(username, filename, sequence, imageRef,
         videoRef.current.src = `${global.backend}/stories/${username}/${filename}/${sequence}`;
         videoRef.current.hidden = false;
         // re render the page
+        // check for more stories
+        if (nextLink) {
+            nextRef.current = nextLink;
+        }
         setRender(true);
         //moreStories();
     }

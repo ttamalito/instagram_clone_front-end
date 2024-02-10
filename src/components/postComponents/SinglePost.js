@@ -12,6 +12,9 @@ import CommentComponentPost
 import catchFetchError
     from "../../utils/catchFetchError";
 
+
+import '../../styles/postStyles/singlePost.css'
+
 /**
  *
 
@@ -31,8 +34,8 @@ export default function SinglePost() {
     }, []);
     // define the owner of the post
     const ownerAnchor = <a className={'post-owner-anchor'} href={`/user/${owner}`}>{owner}</a>
-    const postDocument = (post.postType === 'image') ? <img src={`${global.backend}/static/posts/${post.fileName}`} /> :
-        <video src={`${global.backend}/static/posts/${post.fileName}`} controls={true} autoPlay={true} >
+    const postDocument = (post.postType === 'image') ? <img src={`${global.backend}/static/posts/${post.fileName}`}  className={'media'}/> :
+        <video src={`${global.backend}/static/posts/${post.fileName}`} controls={true} autoPlay={true} className={'media'} >
 
         </video>
 

@@ -1,0 +1,8 @@
+
+.single-post {
+    width: 60%;
+    height: 75dvh;
+    margin: 0 auto;
+    background-color: salmon;
+    overflow-y: scroll;
+}

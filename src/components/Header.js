@@ -6,17 +6,19 @@ import global from "../globalVars";
 import {useEffect, useRef, useState} from "react";
 import connectAndDefineEvents
     from "../utils/serverSentEvents/connectAndDefineEvents";
+import fetchFollowRequestNotifications
+    from "../utils/notifications/fetchFollowRequestNotifications";
 
-export default function Header({loggedIn}) {
+export default function Header({loggedIn, amountNotifications, setAmountNotifications}) {
 
-    // set a state for the amount of notifications in the button
-    const [notifications, setNotifications] = useState('');
+    // set the states for all the notifications list
+    const [followRequestNotificationsList, setFollowRequestNotificationsList] = useState(<ul></ul>);
     // set the ref, so that the object keeps being updated
     const notificationsRef = useRef('');
 
     // define a useEffectToStart the server sent event connection
     useEffect(() => {
-        connectAndDefineEvents(setNotifications);
+        connectAndDefineEvents(setAmountNotifications);
     }, []);
 
     const homeDiv = <div id={'home-div'}><a
@@ -30,11 +32,16 @@ export default function Header({loggedIn}) {
     const storyAnchor = <a href={'/createStory'}>Create a Story</a>
 
     // button to show the notifications
-    const showNotificationsButton = <button>{notifications}</button>
+    const showNotificationsButton = <button
+        onClick={() => {
+            onClickFetchNotifications(
+                setFollowRequestNotificationsList, setAmountNotifications)
+        }
+        }>{amountNotifications}</button>
 
     // notifications div
     const notificationsDiv = <div id={'show-notifications-div'}>
-        <ul id="requestToFollow-list"></ul>
+        {followRequestNotificationsList}
         <ul id="follow-list"></ul>
         <ul id="likes-list"></ul>
         <ul id="comments-list"></ul>
@@ -45,7 +52,7 @@ export default function Header({loggedIn}) {
     {logOut}
     {chatAnchor}
     {storyAnchor}
-    {notifications !== '' && showNotificationsButton}
+        {amountNotifications !== '' &&  showNotificationsButton}
     {notificationsDiv}
     </>
 
@@ -88,3 +95,8 @@ function onClickHandlerLogout(event) {
     })
 
 } // here ends onClickHandlerLogout
+
+
+function onClickFetchNotifications(setFollowRequestNotificationsList, setAmountNotifications) {
+    fetchFollowRequestNotifications(setFollowRequestNotificationsList, setAmountNotifications)
+} // end of function

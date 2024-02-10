@@ -18,6 +18,8 @@ import {useEffect, useRef, useState} from "react";
 import global from "./globalVars";
 import catchFetchError
     from "./utils/catchFetchError";
+import fetchAmountOfNotifications
+    from "./utils/notifications/fetchAmountOfNotifications";
 
 export default function App() {
   // how to change the title of the webpage
@@ -28,6 +30,9 @@ export default function App() {
     // declare them as ref, so that no re-render is triggered
     const refLoggedIn = useRef();
     const refUsername = useRef();
+    // amount of notifications, for the notifications button
+    const [amountNotifications, setAmountNotifications] = useState('');
+
     //const username = useRef();
     //const loggedIn = useRef();
     useEffect(() => {
@@ -45,10 +50,16 @@ export default function App() {
                 refLoggedIn.current = data.loggedIn;
             })
         }).catch(catchFetchError)
+
+        fetchAmountOfNotifications().then(amount => {
+            if (amount > 0) {
+                setAmountNotifications(`Show ${amount} Notifications`);
+            }
+        }).catch(catchFetchError)
     }, []);
   return (
       <>
-          <Header loggedIn={loggedIn} />
+          <Header loggedIn={loggedIn} amountNotifications={amountNotifications} setAmountNotifications={setAmountNotifications}  />
           <BrowserRouter>
               <BaseRoutes loggedIn={refLoggedIn.current} username={refUsername.current} />
               <ProfileRoutes />

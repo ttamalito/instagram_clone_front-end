@@ -11,6 +11,8 @@ import changeAmountOfNotifications
  *
  * @param {[]} notifications
  * @return {{}}
+ * @param {Function} setFollowRequestNotificationsList function (useState) to re-render the list
+ * @param {Function} setAmountNotifications function to set the text in the notifications button
  * @constructor
  */
 export default function FollowRequestNotificationsList({notifications, setFollowRequestNotificationsList,
@@ -23,7 +25,10 @@ export default function FollowRequestNotificationsList({notifications, setFollow
             (event) => {
                 onClickAcceptFollowRequest(event, setFollowRequestNotificationsList, setAmountNotifications)}
         }>Accept</button>
-        const buttonReject = <button  value={`${notification.username}`}>Reject</button>
+        const buttonReject = <button  value={`${notification.username}`}
+        onClick={(event) => {
+            onClickRejectFollowRequest(event, setFollowRequestNotificationsList, setAmountNotifications)
+        }}>Reject</button>
         const date = <p>{`at ${notification.date}`}</p>;
         const container = <div className={`follow-request-notification-div`}>
             {anchor}
@@ -75,9 +80,50 @@ function onClickAcceptFollowRequest(event, setItems, setAmountNotifications) {
             setAmountNotifications(prev => {
                 return changeAmountOfNotifications(prev, -1);
             })
-        } // if data.result
+        } else {
+            // redirect
+            window.location.href = data.url;
+        }
     }).catch(catchFetchError)
 
 
 
 } // end of handler
+
+
+/**
+ * Sends the request to reject a user changes the list and the notifications button
+ * @param {SyntheticEvent} event
+ * @param {Function} setFollowRequestNotificationsList
+ * @param {Function} setAmountNotifications
+ */
+function onClickRejectFollowRequest(event, setFollowRequestNotificationsList, setAmountNotifications) {
+    // retrieve the username
+    const username = event.nativeEvent.srcElement.value;
+
+    // send a request
+    fetch(`${global.backend}/user/rejectFollow/${username}`, {
+        method: 'GET',
+        credentials: 'include'
+    }).then(async response => {
+        // get the result
+        const data = await response.json();
+        if (data.result) {
+            // operation was successful
+            // remove the list item from the list
+            setFollowRequestNotificationsList(prev => {
+                // remove the user
+                const filtered = prev.props.notifications.filter(notification => {return username !== notification.username});
+                return <ul>{filtered}</ul>
+            });
+            // increment of decrease the notifications text
+            setAmountNotifications(prev => {
+                return changeAmountOfNotifications(prev, -1);
+            });
+        } else {
+            // redirect
+            window.location.href = data.url;
+        }
+    }).catch(catchFetchError)
+
+} // end of function

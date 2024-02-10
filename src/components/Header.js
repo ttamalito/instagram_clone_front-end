@@ -8,13 +8,14 @@ import connectAndDefineEvents
     from "../utils/serverSentEvents/connectAndDefineEvents";
 import fetchFollowRequestNotifications
     from "../utils/notifications/fetchFollowRequestNotifications";
+import fetchFollowNotifications
+    from "../utils/notifications/fetchFollowNotifications";
 
 export default function Header({loggedIn, amountNotifications, setAmountNotifications}) {
-
     // set the states for all the notifications list
     const [followRequestNotificationsList, setFollowRequestNotificationsList] = useState(<ul></ul>);
-    // set the ref, so that the object keeps being updated
-    const notificationsRef = useRef('');
+
+    const [followNotificationsList, setFollowNotificationsList] = useState(<ul></ul>);
 
     // define a useEffectToStart the server sent event connection
     useEffect(() => {
@@ -35,14 +36,16 @@ export default function Header({loggedIn, amountNotifications, setAmountNotifica
     const showNotificationsButton = <button
         onClick={() => {
             onClickFetchNotifications(
-                setFollowRequestNotificationsList, setAmountNotifications)
+                setFollowRequestNotificationsList,
+                setFollowNotificationsList,
+                setAmountNotifications)
         }
         }>{amountNotifications}</button>
 
     // notifications div
     const notificationsDiv = <div id={'show-notifications-div'}>
         {followRequestNotificationsList}
-        <ul id="follow-list"></ul>
+        {followNotificationsList}
         <ul id="likes-list"></ul>
         <ul id="comments-list"></ul>
         <ul id="notifications-chats-list"></ul>
@@ -97,6 +100,10 @@ function onClickHandlerLogout(event) {
 } // here ends onClickHandlerLogout
 
 
-function onClickFetchNotifications(setFollowRequestNotificationsList, setAmountNotifications) {
-    fetchFollowRequestNotifications(setFollowRequestNotificationsList, setAmountNotifications)
+function onClickFetchNotifications(setFollowRequestNotificationsList,
+                                   setFollowNotificationsList
+                                   ,setAmountNotifications) {
+
+    fetchFollowRequestNotifications(setFollowRequestNotificationsList, setAmountNotifications);
+    fetchFollowNotifications(setFollowNotificationsList, setAmountNotifications);
 } // end of function

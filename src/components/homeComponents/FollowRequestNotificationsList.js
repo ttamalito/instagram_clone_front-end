@@ -44,7 +44,7 @@ export default function FollowRequestNotificationsList({notifications, setFollow
     return <ul>
         {loopItems}
     </ul>
-}
+} // end of component
 
 /**
  * Sends the request to accept the follow

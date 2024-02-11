@@ -12,6 +12,8 @@ import fetchFollowNotifications
     from "../utils/notifications/fetchFollowNotifications";
 import fetchLikeNotifications
     from "../utils/notifications/fetchLikeNotifications";
+import fetchCommentNotifications
+    from "../utils/notifications/fetchCommentNotifications";
 
 export default function Header({loggedIn, amountNotifications, setAmountNotifications}) {
     // set the states for all the notifications list
@@ -21,6 +23,9 @@ export default function Header({loggedIn, amountNotifications, setAmountNotifica
 
     // like notifications list
     const [likeNotificationsList, setLikeNotificationsList] = useState(<ul></ul>);
+
+    // comment notification list
+    const [commentNotificationsList, setCommentNotificationsList] = useState(<ul></ul>);
 
     // define a useEffectToStart the server sent event connection
     useEffect(() => {
@@ -44,16 +49,18 @@ export default function Header({loggedIn, amountNotifications, setAmountNotifica
                 setFollowRequestNotificationsList,
                 setFollowNotificationsList,
                 setLikeNotificationsList,
+                setCommentNotificationsList,
                 setAmountNotifications)
         }
         }>{amountNotifications}</button>
 
     // notifications div
+    // render all the notifications lists
     const notificationsDiv = <div id={'show-notifications-div'}>
         {followRequestNotificationsList}
         {followNotificationsList}
         {likeNotificationsList}
-        <ul id="comments-list"></ul>
+        {commentNotificationsList}
         <ul id="notifications-chats-list"></ul>
     </div>
 
@@ -108,11 +115,13 @@ function onClickHandlerLogout(event) {
 
 function onClickFetchNotifications(setFollowRequestNotificationsList,
                                    setFollowNotificationsList,
-                                   setLikeNotificationsList
+                                   setLikeNotificationsList,
+                                   setCommentNotificationsList
                                    ,setAmountNotifications) {
 
     // fetch all the notifications and populate the lists
     fetchFollowRequestNotifications(setFollowRequestNotificationsList, setAmountNotifications);
     fetchFollowNotifications(setFollowNotificationsList, setAmountNotifications);
     fetchLikeNotifications(setLikeNotificationsList, setAmountNotifications);
+    fetchCommentNotifications(setCommentNotificationsList, setAmountNotifications);
 } // end of function

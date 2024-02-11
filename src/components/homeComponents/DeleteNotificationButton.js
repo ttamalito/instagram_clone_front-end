@@ -64,6 +64,13 @@ function removeNotification(notification, notificationType, setList, keyToBeRemo
                         })
                     } // enf of like case
                         break;
+                    case 'comment': {
+                        setList(prev => {
+                            const filtered = prev.props.notifications.filter(notification => {return keyToBeRemoved !== notification.senderUsername});
+                            return <ul>{filtered}</ul>
+                        })
+                    } // end of commment case
+                        break;
                     default:
                         break;
                 } // end of switch

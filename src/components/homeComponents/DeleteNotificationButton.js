@@ -5,11 +5,11 @@ import changeAmountOfNotifications
 
 /**
  * Button that holds the listener to send a request to remove a notification
- * @param notification
- * @param notificationType
- * @param setList
- * @param keyToBeRemoved
- * @param setAmountNotifications
+ * @param {Object} notification
+ * @param {String} notificationType
+ * @param {Function} setList
+ * @param {*} keyToBeRemoved
+ * @param {Function} setAmountNotifications
  * @return {JSX.Element}
  * @constructor
  */
@@ -28,7 +28,7 @@ export default function DeleteNotificationButton({notification, notificationType
 
 
 /**
- * Function that contains the logic to send the DELETE request, to remove a notification
+ * Function that contains the logic to send the PUT request, to remove a notification
  * @param {Object} notification The data for the notification, i.e., an object of key-value pairs
  * @param {String} notificationType
  * @param {Function} setList The setter for the useState of the list
@@ -56,6 +56,13 @@ function removeNotification(notification, notificationType, setList, keyToBeRemo
                             return <ul>{filtered}</ul>
                         })
                     } // end of follow case
+                        break;
+                    case 'like': {
+                        setList(prev => {
+                            const filtered = prev.props.notifications.filter(notification => {return keyToBeRemoved !== notification.senderUsername});
+                            return <ul>{filtered}</ul>
+                        })
+                    } // enf of like case
                         break;
                     default:
                         break;

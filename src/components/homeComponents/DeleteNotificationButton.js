@@ -71,6 +71,13 @@ function removeNotification(notification, notificationType, setList, keyToBeRemo
                         })
                     } // end of commment case
                         break;
+                    case 'chat': {
+                        setList(prev => {
+                            const filtered = prev.props.notifications.filter(notification => {return keyToBeRemoved !== notification.messageFromUsername});
+                            return <ul>{filtered}</ul>
+                        })
+                    } // end of chat case
+                        break;
                     default:
                         break;
                 } // end of switch

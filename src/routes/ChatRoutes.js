@@ -9,10 +9,10 @@ import ChatInbox from "../pages/chats/ChatInbox";
  * @return {Element}
  * @constructor
  */
-export default function ChatRoutes() {
+export default function ChatRoutes({username}) {
 
     return (<Routes>
-        <Route exact path='/chat/inbox' element={<ChatInbox />}/>
+        <Route exact path='/chat/inbox' element={<ChatInbox username={username} />}/>
 
     </Routes>);
 }

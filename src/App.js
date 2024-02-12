@@ -65,7 +65,7 @@ export default function App() {
               <ProfileRoutes />
               <AuthenticationRoutes />
               <PostRoutes />
-              <ChatRoutes />
+              <ChatRoutes username={refUsername.current}/>
               <StoriesRoutes />
           </BrowserRouter>
       </>

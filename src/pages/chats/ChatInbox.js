@@ -5,6 +5,10 @@ import {useState} from "react";
 import fetchCSRF from "../../utils/fetchCSRF";
 
 import global from "../../globalVars";
+import createUrlParams
+    from "../../utils/createUrlParams";
+import catchFetchError
+    from "../../utils/catchFetchError";
 
 export default function ChatInbox({username}) {
 
@@ -29,7 +33,9 @@ export default function ChatInbox({username}) {
 
     // form to start a new chat
     const startChatForm  = <div>
-        <form action="/chat/createSingleChat" method="POST">
+        <form onSubmit={(event) => {
+            onSubmitStartChat(event, setDisplayStartNewChat)
+        }}>
             <input type="hidden" name={`_csrf`} value={csrfToken} />
                 <label htmlFor="partner">Choose someone to chat</label>
                 <select name="partner" id="partner">
@@ -119,4 +125,36 @@ function onClickRenderAndFetchStartChat(setFollowingList, setDisplayStartNewChat
             window.location.href = '/error';
         }
     })
+} // end of handler
+
+
+/**
+ * Handler to submit the form, so that a new chat can be created
+ * @param {SyntheticEvent} event
+ * @param {Function} setDisplayStartNewChat function from useState to display the form
+ */
+function onSubmitStartChat(event, setDisplayStartNewChat) {
+    // default
+    event.preventDefault();
+
+    // now send the post request
+    const urlData = createUrlParams(event.nativeEvent.srcElement);
+
+    // send the data
+    fetch(`${global.backend}/chat/createSingleChat`, {
+        method: 'POST',
+        credentials: 'include',
+        body: urlData
+    }).then(async reponse => {
+        // get the data
+        const data = reponse.json();
+        if (data.result) {
+            // all good, chat was saved
+            // hide the form
+            setDisplayStartNewChat(false);
+        } else {
+            // could not start the chat
+            alert(`Something went wrong while creating the chat, please try again later`);
+        }
+    }).catch(catchFetchError)
 }

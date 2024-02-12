@@ -1,7 +1,7 @@
 
 
 import '../../styles/chatStyles/chatInbox.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import fetchCSRF from "../../utils/fetchCSRF";
 
 import global from "../../globalVars";
@@ -11,6 +11,10 @@ import catchFetchError
     from "../../utils/catchFetchError";
 
 export default function ChatInbox({username}) {
+    // useEffect to fetch all the active chats of a user
+    useEffect(() => {
+        fetchActiveChats(setActiveChats);
+    }, []);
 
     // state for displaying the form to start a new chat
     const [displayStartNewChat, setDisplayStartNewChat] = useState(false);
@@ -20,6 +24,9 @@ export default function ChatInbox({username}) {
 
     // state for the csrf token
     const [csrfToken, setCsrfToken] = useState('');
+
+    // state for active chats
+    const [activeChats, setActiveChats] = useState([]);
 
     // chat header
     const chatHeader = <h1>Your Messages</h1>
@@ -52,7 +59,15 @@ export default function ChatInbox({username}) {
     // main chat container
     const chatContainer = <div id="chats-container">
         <div id="chats-overview">
-            <ul id="active-chats"></ul>
+            <ul id="active-chats">
+                {activeChats.map(item => {
+                    return <li key={item.partnerUsername}>
+                        <div>
+                            <p>Chat with {item.partnerUsername}</p>
+                        </div>
+                    </li>
+                })}
+            </ul>
         </div>
         <div id="main-chat">
 
@@ -157,4 +172,32 @@ function onSubmitStartChat(event, setDisplayStartNewChat) {
             alert(`Something went wrong while creating the chat, please try again later`);
         }
     }).catch(catchFetchError)
-}
+} // end of handler
+
+/**
+ * Helper function to fetch all the active chats that a user has
+ * @param {Function} setActiveChats
+ */
+function fetchActiveChats(setActiveChats) {
+    // send the get request
+    fetch(`${global.backend}/chat/fetchChats`, {
+        method: 'GET',
+        credentials: 'include'
+    }).then(async response => {
+        // get the data
+        const data = await response.json();
+        if (data.result) {
+            // we have a list of chats
+            // render the list of chats
+            setActiveChats(data.chats);
+        } else {
+            // there are no active chats
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert(`Could not fetch the active chats`);
+            }
+
+        }
+    }).catch(catchFetchError);
+} // end of fetchActiveChats

@@ -9,6 +9,8 @@ import createUrlParams
     from "../../utils/createUrlParams";
 import catchFetchError
     from "../../utils/catchFetchError";
+import Message
+    from "../../components/chatComponents/Message";
 
 export default function ChatInbox({username}) {
     // useEffect to fetch all the active chats of a user
@@ -27,6 +29,12 @@ export default function ChatInbox({username}) {
 
     // state for active chats
     const [activeChats, setActiveChats] = useState([]);
+
+    // state for messages
+    const [messages, setMessages] = useState([]);
+
+    // state for chat title
+    const [chatTitle, setChatTitle] = useState('');
 
     // chat header
     const chatHeader = <h1>Your Messages</h1>
@@ -61,7 +69,8 @@ export default function ChatInbox({username}) {
         <div id="chats-overview">
             <ul id="active-chats">
                 {activeChats.map(item => {
-                    return <li key={item.partnerUsername}>
+                    return <li key={item.partnerUsername} onClick={() => {onClickFetchMessages(item.chatId,
+                        setMessages, item.partnerUsername, setChatTitle, item.partnerUserId)}}>
                         <div>
                             <p>Chat with {item.partnerUsername}</p>
                         </div>
@@ -73,13 +82,20 @@ export default function ChatInbox({username}) {
 
             <div id="messageTo"></div>
 
-            <div id="chat-with" ></div>
+            <div id="chat-with" >
+                {chatTitle}
+            </div>
 
             <div id="chatId" ></div>
 
             <div id="messageFrom" ></div>
             <div id="conversation">
-                <ol id="conversation-messages"></ol>
+                <ol id="conversation-messages">
+                    {
+                        messages.map(item => {
+                            return <Message message={item} /> ;
+                        })}
+                </ol>
             </div>
             <div id="message-input" >
                 <form id="chat-form">
@@ -103,7 +119,7 @@ export default function ChatInbox({username}) {
  * Handles the logic to display the form, to start a new chat
  * @param {Function} setFollowingList
  * @param {Function} setDisplayStartNewChat
- * @param {String} username
+ * @param {String} username Username of the client
  * @param {Function} setCsrfToken
  */
 function onClickRenderAndFetchStartChat(setFollowingList, setDisplayStartNewChat, username, setCsrfToken) {
@@ -201,3 +217,41 @@ function fetchActiveChats(setActiveChats) {
         }
     }).catch(catchFetchError);
 } // end of fetchActiveChats
+
+
+/**
+ * Function to fetch all the messages of a given chat
+ * @param {String} chatId
+ * @param {Function} setMessages function to set the messages so that they van be rendered
+ * @param {Function} setChatTitle
+ * @param {String} partnerUsername username of the other party of the chat
+ * @param {String} partnerUserId the user id of the partner.
+ */
+function onClickFetchMessages(chatId, setMessages, partnerUsername, setChatTitle, partnerUserId) {
+    // send the get request
+    fetch(`${global.backend}/chat/fetchMessages/${chatId}`, {
+        method:'GET',
+        credentials: 'include'
+    }).then(async response => {
+        // get the data
+        const data = await response.json();
+        // check if we have a list
+        if (data.result) {
+            // we have a list
+            // refactor the messages array, to see with whom the chat is
+            const refactoredMessages = data.messages.map(item => {
+                item.partnerUserId = partnerUserId;
+                return item;
+            })
+            setMessages(refactoredMessages);
+            // set the title of the chat
+            setChatTitle(`Chatting with ${partnerUsername}`);
+        } else {
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert(`Could not fetch the messages for that chat`)
+            }
+        }
+    }).catch(catchFetchError);
+} // end of function

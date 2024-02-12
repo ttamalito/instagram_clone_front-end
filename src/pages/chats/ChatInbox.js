@@ -1,7 +1,7 @@
 
 
 import '../../styles/chatStyles/chatInbox.css'
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import fetchCSRF from "../../utils/fetchCSRF";
 
 import global from "../../globalVars";
@@ -11,12 +11,28 @@ import catchFetchError
     from "../../utils/catchFetchError";
 import Message
     from "../../components/chatComponents/Message";
+import openWebSocketConnection
+    from "../../utils/webSockets/openWebSocketConnection";
 
 export default function ChatInbox({username}) {
     // useEffect to fetch all the active chats of a user
     useEffect(() => {
         fetchActiveChats(setActiveChats);
-    }, []);
+        // open the webSocket connection
+        const ws = openWebSocketConnection(username, mainChatId, setMessages);
+        webSocketRef.current = ws;
+
+    }, [username]);
+
+    // main chat id
+    const mainChatId = useRef('');
+
+    // web socket ref
+    const webSocketRef = useRef(null);
+
+    // main chat partnerId
+    const mainPartnerId = useRef('');
+
 
     // state for displaying the form to start a new chat
     const [displayStartNewChat, setDisplayStartNewChat] = useState(false);
@@ -70,7 +86,7 @@ export default function ChatInbox({username}) {
             <ul id="active-chats">
                 {activeChats.map(item => {
                     return <li key={item.partnerUsername} onClick={() => {onClickFetchMessages(item.chatId,
-                        setMessages, item.partnerUsername, setChatTitle, item.partnerUserId)}}>
+                        setMessages, item.partnerUsername, setChatTitle, item.partnerUserId, mainChatId, mainPartnerId)}}>
                         <div>
                             <p>Chat with {item.partnerUsername}</p>
                         </div>
@@ -97,8 +113,18 @@ export default function ChatInbox({username}) {
                         })}
                 </ol>
             </div>
+
             <div id="message-input" >
-                <form id="chat-form">
+                <form id="chat-form"
+                onSubmit={(event) => {
+                    onSubmitSendMessage(event,
+                        webSocketRef,
+                        setMessages,
+                        chatTitle,
+                        username,
+                        mainChatId,
+                        mainPartnerId)
+                }}>
                     <input type="text" name="message" id="message" autoComplete="off"  placeholder={'Type a message'}/>
                         <button type="submit">Send</button>
                 </form>
@@ -106,12 +132,15 @@ export default function ChatInbox({username}) {
         </div>
     </div>
 
+
     return (<div id={'chat-inbox-wrapper'}>
         {chatHeader}
         {startChatButton}
         {displayStartNewChat && startChatForm}
         {chatContainer}
     </div>)
+
+
 }
 
 // handler to render the form and fetch the csrf token as well as the following list
@@ -221,13 +250,21 @@ function fetchActiveChats(setActiveChats) {
 
 /**
  * Function to fetch all the messages of a given chat
+ * Sets the mainChat id useRef
+ * Renders the messages
  * @param {String} chatId
  * @param {Function} setMessages function to set the messages so that they van be rendered
  * @param {Function} setChatTitle
  * @param {String} partnerUsername username of the other party of the chat
  * @param {String} partnerUserId the user id of the partner.
+ * @param {MutableRefObject<String>} mainChatId
+ * @param {MutableRefObject<String>} mainPartnerId
  */
-function onClickFetchMessages(chatId, setMessages, partnerUsername, setChatTitle, partnerUserId) {
+function onClickFetchMessages(chatId, setMessages, partnerUsername, setChatTitle, partnerUserId,
+                              mainChatId, mainPartnerId) {
+    mainChatId.current = chatId;
+    mainPartnerId.current = partnerUserId;
+
     // send the get request
     fetch(`${global.backend}/chat/fetchMessages/${chatId}`, {
         method:'GET',
@@ -245,7 +282,7 @@ function onClickFetchMessages(chatId, setMessages, partnerUsername, setChatTitle
             })
             setMessages(refactoredMessages);
             // set the title of the chat
-            setChatTitle(`Chatting with ${partnerUsername}`);
+            setChatTitle(`${partnerUsername}`);
         } else {
             if (data.url) {
                 window.location.href = data.url;
@@ -255,3 +292,72 @@ function onClickFetchMessages(chatId, setMessages, partnerUsername, setChatTitle
         }
     }).catch(catchFetchError);
 } // end of function
+
+
+/**
+ * Handler to send a message whenever the form is supposed to be submitted
+ * @param {SyntheticEvent} event
+ * @param {MutableRefObject<WebSocket>} webSocketRef
+ * @param {Function} setMessages
+ * @param {String} chatTitle the username of the partner of the chat
+ * @param {String} username the username of the client
+ * @param {MutableRefObject<String>} mainChatId
+ * @param {MutableRefObject<String>} mainPartnerId
+ */
+function onSubmitSendMessage(event, webSocketRef, setMessages, chatTitle
+                             , username, mainChatId, mainPartnerId) {
+    // again default
+    event.preventDefault();
+    // get the form
+    const chatForm = event.nativeEvent.srcElement;
+
+    // prepare the message to be sent
+    const messageFromUsername = username; // client's username
+    const messageToUsername = chatTitle;
+    const messageTo = mainPartnerId.current;
+    const chatId = mainChatId.current;
+    const content = new FormData(chatForm).get('message');
+    const date = new Date().toISOString();
+
+    // create the object to be render in the screen
+    const message = {
+        messageFrom: '', // from the client, but the id is not available
+        partnerUserId: mainPartnerId.current,
+        messageTo: messageTo,
+        date: date,
+        content: content
+    }
+
+    // reset the form
+    chatForm.reset();
+    // render the message in the screen
+        setMessages(prev => {
+            console.log(typeof prev);
+            const data = Array.from(prev)
+            data.push(message);
+            console.log(`Type of data ${typeof data}`);
+        return data;
+    });
+
+    // send the message
+    const messageToBeSent = {
+        messageToUsername: messageToUsername,
+        messageFromUsername: messageFromUsername,
+        messageTo: messageTo,
+        date: date,
+        content: content,
+        chatId: chatId
+    }
+
+    // serialize it to json
+    const jsonMessage = JSON.stringify(messageToBeSent);
+
+    // send if it the connection is not null
+    if (webSocketRef.current) {
+        webSocketRef.current.send(jsonMessage);
+    } else {
+        alert(`There is something wrong with your web socket connection, message could not be sent`);
+    }
+
+} // end of handler to send the message
+

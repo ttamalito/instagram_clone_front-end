@@ -4,8 +4,6 @@
  * @constructor
  */
 export default function Message({message}) {
-    console.log(message)
-
     const messageDiv = <div>
         <p>{message.content}</p>
     </div>

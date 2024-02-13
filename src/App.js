@@ -25,11 +25,11 @@ export default function App() {
   // how to change the title of the webpage
   document.title = 'Hola Putos';
     // get the info if the user is logged in
-    const [username, setUsername] = useState();
-    const [loggedIn, setLoggedIn] = useState();
+    const [username, setUsername] = useState('');
+    const [loggedIn, setLoggedIn] = useState(false);
     // declare them as ref, so that no re-render is triggered
-    const refLoggedIn = useRef();
-    const refUsername = useRef();
+    const refLoggedIn = useRef(false);
+    const refUsername = useRef('');
     // amount of notifications, for the notifications button
     const [amountNotifications, setAmountNotifications] = useState('');
 
@@ -62,7 +62,7 @@ export default function App() {
           <Header loggedIn={loggedIn} amountNotifications={amountNotifications} setAmountNotifications={setAmountNotifications}  />
           <BrowserRouter>
               <BaseRoutes loggedIn={refLoggedIn.current} username={refUsername.current} />
-              <ProfileRoutes />
+              <ProfileRoutes username={refUsername.current}  loggedIn={refLoggedIn.current}/>
               <AuthenticationRoutes />
               <PostRoutes />
               <ChatRoutes username={refUsername.current}/>

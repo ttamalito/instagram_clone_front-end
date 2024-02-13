@@ -93,7 +93,7 @@ export default function Profile({displayFollowersList,displayFollowingList }) {
     const profileData = <div id={'profile-data'}>
         <div id={'profile-links'}>
             {story.result && <a href={`/stories/${username}/${story.story.filename}/0`}>View Stories</a>}
-            {ownProfile && <a href={`/user/edit/`}>Edit Profile</a> }
+            {ownProfile && <a href={`/user/edit/${username}`}>Edit Profile</a> }
         </div>
         {<FollowersAndFollowing username={username} displayFollowersList={displayFollowersList} displayFollowingList={displayFollowingList} />}
         <h3>Posts of {username}</h3>

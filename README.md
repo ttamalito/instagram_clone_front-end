@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Instagram Clone Front-end
+This is a simple UI built with React.js, for the "main" project, that is the 
+[instagram_clone backend server](https://github.com/ttamalito/Instagram_Clone)
+I built this just to have some visual and using the backend server
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The backend server, has a lot of functionalities, that together with this UI,
+they can be used and observed
 
-## Available Scripts
+## Features
+In summary this project has a lot of features, almost every single one
+of the main features that can be found in the real instagram
+* Live In-App notifications using Server-Sent-Events
+* Live chatting functionality with WebSockets
+* Account creation and session storage in order to stay logged in
+* Posting a picture or video (just like instagram)
+* Liking and disliking a post, and the user receiving the like receives a notification
+* Comment a post, the user receiving the comment gets a notification instantly
+* Posting a Story for 24 hours, (after 24 hours the story will be deleted automatically)
+* Follow/Unfollow users
+* Being able to only chat with users the the client is following
+* In terms of security all posts containing a form need a CSRF token, that is validated by the server
+* Functionality to reject the follow request of a user
+* Functionality to delete the notifications
 
-In the project directory, you can run:
+## Run locally
+In order to run locally you will need to clone the repository, as well as the 
+[backend repository](https://github.com/ttamalito/Instagram_Clone) (follow the instructions to get the backend running in that repository)
+Install all the dependencies using npm install, in your terminal
+After that execute npm start go to http://localhost:8080 in the browser of your choice to star using the project
+Make sure that the backend server is running, otherwise this will not work.
 
-### `npm start`
+There are more things to come, I have worked for months in this project and I have learned a lot.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Thank you for reading!

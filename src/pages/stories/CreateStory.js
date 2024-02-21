@@ -47,9 +47,8 @@ function upLoadStoryInChunks(event) {
             const url = `${global.backend}/uploadStory?_csrf=${csrf}`;
             // send all the files
             await uploadFilesInChunks(url, files, 1000000); // !1MB
-            // once all the files are sent, redirect
-            console.log(`After uploadFilesInChunksFunction: ${Date.now()}`)
-            //window.location.href = '/';
+            // redirect after sending all the files
+            window.location.href = '/';
         } else {
             // no csrf token
             console.log(`no csrf token`);
